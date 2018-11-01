@@ -1,7 +1,7 @@
 #matrix{
   display:flex;
   width:300px;
-  flex-wrap:wrap;
+  flex-wrap:wrap;  /*postavily max shiriny 300 i kajduyu po 100 postavily */
 }
 #matrix input{
   width:80px;

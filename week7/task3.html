@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <style>
+      #cards .card{
+        border:1px solid red;
+        display:flex;
+        width:300px;
+      }
+      #cards .card .title{
+        flex-grow: 1;
+      }
+      #cards .card .price{
+        font-weight: bold;
+        padding-right: 20px;
+      }
+      #loading{
+        display: none;
+      }
+      #cards{
+        width:300px;
+        height:200px;
+        border: 1px solid blue;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <button>Load</button>
+    <div>
+      <button id="sortByMaker">Sort by maker</button>
+      <button id="sortByPrice">Sort by price</button>
+    </div>
+    <div id="cards">
+      <img width="300px" height="200px" id="loading" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"/>
+    </div>
+
+
+    <script>
+      let outerDiv = document.querySelector("#cards");
+      document.querySelector('button').onclick = function() {
+        document.querySelector('#loading').style.display = 'inline';
+        load();
+      }
+      function load(){
+        fetch("http://demo4296963.mockable.io/listCars").then( function(response){
+          response.json().then(function(text) {
+            text.forEach(car=>{
+              document.querySelector('#loading').style.display = 'none';
+              let div = document.createElement("div");
+              let title = document.createElement("span");
+              let price = document.createElement("span");
+              title.textContent = car["maker"] + " " + car["model"];
+              price.textContent = car["price"];
+              div.appendChild(title);
+              div.appendChild(price);
+              title.classList.add("title");
+              price.classList.add("price");
+              div.classList.add("card");
+              outerDiv.appendChild(div);
+            });
+          });
+        });
+      }
+
+      document.querySelector("#sortByPrice").onclick = function(){
+        outerDiv.innerHTML = '';
+        fetch("http://demo4296963.mockable.io/listCars").then( function(response){
+          response.json().then(function(text) {
+            let arr = text;
+            for(let i=0; i<arr.length; i++){
+              for(let j=i+1; j<arr.length; j++){
+                if(arr[j].price<arr[i].price){
+                  let q = arr[j];
+                  arr[j] = arr[i];
+                  arr[i] = q;
+                }
+              }
+            }
+
+            arr.forEach(car =>{
+              let div = document.createElement("div");
+              let title = document.createElement("span");
+              let price = document.createElement("span");
+              title.textContent = car["maker"] + " " + car["model"];
+              price.textContent = car["price"];
+              div.appendChild(title);
+              div.appendChild(price);
+              title.classList.add("title");
+              price.classList.add("price");
+              div.classList.add("card");
+              outerDiv.appendChild(div);
+            });
+
+        });
+      });
+    }
+
+     document.querySelector("#sortByMaker").onclick = function(){
+        outerDiv.innerHTML = '';
+        fetch("http://demo4296963.mockable.io/listCars").then( function(response){
+          response.json().then(function(text) {
+            let arr = text;
+            for(let i = 0; arr.length > i;i++){
+              for(let i1 = i + 1; arr.length > i1;i1++){
+                if(arr[i1].maker < arr[i].maker){
+                  let q = arr[i1];
+                  arr[i1] = arr[i];
+                  arr[i] = q;
+                }
+              }
+            }
+            arr.forEach(car =>{
+              let div = document.createElement("div");
+              let title = document.createElement("span");
+              let price = document.createElement("span");
+              title.textContent = car["maker"] + " " + car["model"];
+              price.textContent = car["price"];
+              div.appendChild(title);
+              div.appendChild(price);
+              title.classList.add("title");
+              price.classList.add("price");
+              div.classList.add("card");
+              outerDiv.appendChild(div);
+            });
+
+          });
+      });  
+    }
+
+    </script>
+  </body>
+
+</html>

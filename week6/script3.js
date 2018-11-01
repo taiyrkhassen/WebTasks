@@ -27,10 +27,11 @@ for(let i=0; i<cars.length; i++){
     car.classList.add("card");
     carsElement.appendChild(car);
 }
+insideBasket.innerHTML+= "<B"
 let butt = document.getElementById("war");
 butt.style.marginLeft = "10px";
 butt.addEventListener("click", function(){
-	sum.textContent = parseInt(0);
+	sum.textContent =0;
 	items.textContent = parseInt(0); 
 	console.log("sdsd");
 });
